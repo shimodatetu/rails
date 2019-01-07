@@ -7,4 +7,12 @@ class User < ApplicationRecord
   has_many :topics
   has_many :favorites
   has_many :favorite_topics, through: :favorites, source: 'topic'
+
+  def favorite_topics
+    a = []
+    Favorite.where(user_id: self.id).each do |favorite|
+      a.push(Topic.find_by(id: favorite.topic_id))
+    end
+    return a
+  end
 end
